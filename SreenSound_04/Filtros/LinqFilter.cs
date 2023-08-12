@@ -1,7 +1,6 @@
 ﻿using ScreenSound_04.Modelos;
 
 namespace ScreenSound_04.Filtros;
-
 internal class LinqFilter
 {
     public static void FiltrarTodosOsGenerosMusicais(List<Musica> musicas)
