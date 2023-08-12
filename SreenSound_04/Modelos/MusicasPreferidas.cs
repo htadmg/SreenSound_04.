@@ -4,29 +4,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
-namespace SreenSound_04.Modelos
+namespace SreenSound_04.Modelos;
+
+internal class MusicasPreferidas
 {
-    internal class MusicasPreferidas
+    public string? Nome { get; set; }
+    public List<Musica> ListaDeMusicasFavoritas { get;}
+    public MusicasPreferidas(string nome) 
     {
-        public string? Nome {get; set }
-        public List<Musica> ListaDeMusicasFavoritas { get;}
-        public MusicasPreferidas(string nome) 
+        Nome = nome;
+        ListaDeMusicasFavoritas = new List<Musica>();
+    }
+    public void AdicionarMusicasFavoritas(Musica musica)
+    {
+        ListaDeMusicasFavoritas.Add(musica);
+    }
+    public void ExibirMusicasFavoritas()
+    {
+        Console.WriteLine($"Essas são as músicas favoritas -> {Nome}");
+        foreach(var musica in  ListaDeMusicasFavoritas)
         {
-            Nome = nome;
-            ListaDeMusicasFavoritas = new List<Musica>();
+            Console.WriteLine($"{musica.Nome} de {musica.Artista}");
         }
-        public void AdicionarMusicasFavoritas(Musica musica)
+    }
+    public void GerarArquivoJson()
+    {
+        string json = JsonSerializer.Serialize(new
         {
-            ListaDeMusicasFavoritas.Add(musica);
-        }
-        public void ExibirMusicasFavoritas()
-        {
-            Console.WriteLine($"Essas são as músicas favoritas -> {Nome}");
-            foreach(var musica in  ListaDeMusicasFavoritas)
-            {
-                Console.WriteLine($"{musica.Nome} de {musica.Artista}");
-            }
-        }
+            nome = Nome, 
+            musicas = ListaDeMusicasFavoritas
+        });
+        string nomeDoArquivo = $"msuicas-favoritas-{Nome}.json";
+        File.WriteAllText(nomeDoArquivo, json);
+        Console.WriteLine($"o arquivo json foi criado com sucesso!{Path.GetFullPath(nomeDoArquivo)}");
     }
 }
